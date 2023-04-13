@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
@@ -20,9 +21,14 @@ import java.util.Date;
 public class Line {
     @Id
     @GeneratedValue(
-        strategy = GenerationType.AUTO
+        strategy = GenerationType.IDENTITY,
+        generator = "line-id-generator"
     )
-    private Long id;
+    @GenericGenerator(
+        name = "line-id-generator",
+        strategy = "com.ihub.linemanagementservice.utils.LineIdGenerator"
+    )
+    private String id;
 
     private String teamLeaderId;
 

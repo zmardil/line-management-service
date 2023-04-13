@@ -31,22 +31,22 @@ public class LineController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Line> read(@PathVariable Long id) {
+    public ResponseEntity<Line> read(@PathVariable String id) {
         return new ResponseEntity<>(lineService.getLineById(id), HttpStatus.OK);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Line> update(@PathVariable Long id, @RequestBody @Valid LineRequestDTO lineRequestDTO) {
+    public ResponseEntity<Line> update(@PathVariable String id, @RequestBody @Valid LineRequestDTO lineRequestDTO) {
         return new ResponseEntity<>(lineService.updateLineById(id, lineRequestDTO), HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Line> patch(@PathVariable Long id, @RequestBody @Valid LineRequestDTO lineRequestDTO) {
+    public ResponseEntity<Line> patch(@PathVariable String id, @RequestBody @Valid LineRequestDTO lineRequestDTO) {
         return new ResponseEntity<>(lineService.patchLineByid(id, lineRequestDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable Long id) {
+    public ResponseEntity delete(@PathVariable String id) {
         lineService.deleteLineById(id);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }

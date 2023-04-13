@@ -18,13 +18,13 @@ public class LineService {
     public List<Line> getAllLines() {
         return lineRepository.findAll();
     }
-    public Line getLineById(Long id) {
+    public Line getLineById(String id) {
         Optional<Line> line = lineRepository.findById(id);
         if(line.isEmpty()) throw new ResourceNotFoundException("Line not found.");
         return line.get();
     }
 
-    public void deleteLineById(Long id) {
+    public void deleteLineById(String id) {
         if(!lineRepository.existsById(id)) throw new ResourceNotFoundException("Line not found.");
         lineRepository.deleteById(id);
     }
@@ -38,7 +38,7 @@ public class LineService {
         return lineRepository.save(line);
     }
 
-    public Line patchLineByid(Long id, LineRequestDTO lineRequestDTO) {
+    public Line patchLineByid(String id, LineRequestDTO lineRequestDTO) {
         Line line = lineRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Line not found."));
         if(lineRequestDTO.getTeamLeaderId() != null) line.setTeamLeaderId(lineRequestDTO.getTeamLeaderId());
@@ -47,7 +47,7 @@ public class LineService {
         return lineRepository.save(line);
     }
 
-    public Line updateLineById(Long id, LineRequestDTO lineRequestDTO) {
+    public Line updateLineById(String id, LineRequestDTO lineRequestDTO) {
         Line line = lineRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Line not found."));
         line.setTeamLeaderId(lineRequestDTO.getTeamLeaderId());
