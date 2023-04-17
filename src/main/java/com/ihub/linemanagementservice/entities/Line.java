@@ -17,7 +17,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "lines")
+@Table
 public class Line {
     @Id
     @GeneratedValue(
