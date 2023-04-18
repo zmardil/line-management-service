@@ -1,6 +1,6 @@
 package com.ihub.linemanagementservice.services;
 
-import com.ihub.linemanagementservice.dtos.LineRequestDTO;
+import com.ihub.linemanagementservice.dtos.LineDTO;
 import com.ihub.linemanagementservice.entities.Line;
 import com.ihub.linemanagementservice.exceptions.ResourceNotFoundException;
 import com.ihub.linemanagementservice.respositories.LineRepository;
@@ -29,30 +29,27 @@ public class LineService {
         lineRepository.deleteById(id);
     }
 
-    public Line addline(LineRequestDTO lineRequestDTO) {
+    public Line createLine(LineDTO lineDTO) {
         Line line = Line.builder()
-                .teamLeaderId(lineRequestDTO.getTeamLeaderId())
-                .shift(lineRequestDTO.getShift())
-                .isActive(lineRequestDTO.getIsActive())
+                .status(lineDTO.getStatus())
+                .noOfMachines(lineDTO.getNoOfMachines())
                 .build();
         return lineRepository.save(line);
     }
 
-    public Line patchLineByid(String id, LineRequestDTO lineRequestDTO) {
+    public Line patchLineById(String id, LineDTO lineDTO) {
         Line line = lineRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Line not found."));
-        if(lineRequestDTO.getTeamLeaderId() != null) line.setTeamLeaderId(lineRequestDTO.getTeamLeaderId());
-        if(lineRequestDTO.getShift() != null) line.setShift(lineRequestDTO.getShift());
-        if(lineRequestDTO.getIsActive() != null) line.setIsActive(lineRequestDTO.getIsActive());
+        Optional.ofNullable(lineDTO.getStatus()).ifPresent(line::setStatus);
+        Optional.ofNullable(lineDTO.getNoOfMachines()).ifPresentOrElse(line::setNoOfMachines, () -> line.setNoOfMachines(null));
         return lineRepository.save(line);
     }
 
-    public Line updateLineById(String id, LineRequestDTO lineRequestDTO) {
+    public Line updateLineById(String id, LineDTO lineDTO) {
         Line line = lineRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Line not found."));
-        line.setTeamLeaderId(lineRequestDTO.getTeamLeaderId());
-        line.setShift(lineRequestDTO.getShift());
-        line.setIsActive(lineRequestDTO.getIsActive());
+        Optional.ofNullable(lineDTO.getStatus()).ifPresent(line::setStatus);
+        Optional.ofNullable(lineDTO.getNoOfMachines()).ifPresent(line::setNoOfMachines);
         return lineRepository.save(line);
     }
 }

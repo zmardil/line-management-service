@@ -1,15 +1,15 @@
 package com.ihub.linemanagementservice.entities;
 
-import com.ihub.linemanagementservice.enums.Shift;
+import com.ihub.linemanagementservice.enums.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.annotation.CreatedDate;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -17,7 +17,6 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table
 public class Line {
     @Id
     @GeneratedValue(
@@ -30,17 +29,14 @@ public class Line {
     )
     private String id;
 
-    private String teamLeaderId;
+    private Integer noOfMachines;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
-    private Shift shift;
+    private Status status = Status.OFFLINE;
 
-    @Builder.Default
-    private Boolean isActive = true;
-
-    @CreatedDate
-    @Builder.Default
-    private Date createdAt = new Date();
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
 }
 

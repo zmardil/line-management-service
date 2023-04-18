@@ -1,6 +1,6 @@
 package com.ihub.linemanagementservice.controllers;
 
-import com.ihub.linemanagementservice.dtos.LineRequestDTO;
+import com.ihub.linemanagementservice.dtos.LineDTO;
 import com.ihub.linemanagementservice.entities.Line;
 import com.ihub.linemanagementservice.services.LineService;
 import jakarta.validation.Valid;
@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,8 +22,8 @@ public class LineController {
     private final LineService lineService;
 
     @PostMapping
-    public ResponseEntity<Line> create(@RequestBody @Valid LineRequestDTO lineRequestDTO) {
-        return new ResponseEntity<>(lineService.addline(lineRequestDTO), HttpStatus.CREATED);
+    public ResponseEntity<Line> create(@RequestBody @Valid LineDTO lineDTO) {
+        return new ResponseEntity<>(lineService.createLine(lineDTO), HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -36,13 +37,13 @@ public class LineController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Line> update(@PathVariable String id, @RequestBody @Valid LineRequestDTO lineRequestDTO) {
-        return new ResponseEntity<>(lineService.updateLineById(id, lineRequestDTO), HttpStatus.OK);
+    public ResponseEntity<Line> update(@PathVariable String id, @RequestBody @Validated(LineDTO.UpdateGroup.class) LineDTO lineDTO) {
+        return new ResponseEntity<>(lineService.updateLineById(id, lineDTO), HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Line> patch(@PathVariable String id, @RequestBody @Valid LineRequestDTO lineRequestDTO) {
-        return new ResponseEntity<>(lineService.patchLineByid(id, lineRequestDTO), HttpStatus.OK);
+    public ResponseEntity<Line> patch(@PathVariable String id, @RequestBody @Validated(LineDTO.PatchGroup.class) LineDTO lineDTO) {
+        return new ResponseEntity<>(lineService.patchLineById(id, lineDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
