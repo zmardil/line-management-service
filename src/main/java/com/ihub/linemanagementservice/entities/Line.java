@@ -1,5 +1,6 @@
 package com.ihub.linemanagementservice.entities;
 
+import com.ihub.linemanagementservice.enums.ShiftType;
 import com.ihub.linemanagementservice.enums.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 
 @Entity
@@ -20,12 +22,12 @@ import java.time.LocalDateTime;
 public class Line {
     @Id
     @GeneratedValue(
-        strategy = GenerationType.IDENTITY,
-        generator = "line-id-generator"
+            strategy = GenerationType.IDENTITY,
+            generator = "line-id-generator"
     )
     @GenericGenerator(
-        name = "line-id-generator",
-        strategy = "com.ihub.linemanagementservice.utils.LineIdGenerator"
+            name = "line-id-generator",
+            strategy = "com.ihub.linemanagementservice.utils.LineIdGenerator"
     )
     private String id;
 
@@ -37,6 +39,10 @@ public class Line {
 
     @CreationTimestamp
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "line", cascade = CascadeType.ALL)
+    @MapKey(name = "type")
+    private Map<ShiftType, Shift> shifts;
 
 }
 

@@ -1,6 +1,7 @@
 package com.ihub.linemanagementservice.controllers;
 
 import com.ihub.linemanagementservice.dtos.LineDTO;
+import com.ihub.linemanagementservice.dtos.ShiftDTO;
 import com.ihub.linemanagementservice.entities.Line;
 import com.ihub.linemanagementservice.services.LineService;
 import jakarta.validation.Valid;
@@ -37,12 +38,18 @@ public class LineController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Line> update(@PathVariable String id, @RequestBody @Validated(LineDTO.UpdateGroup.class) LineDTO lineDTO) {
+    public ResponseEntity<Line> update(
+            @PathVariable String id,
+            @RequestBody @Validated({LineDTO.UpdateGroup.class, ShiftDTO.UpdateGroup.class}) LineDTO lineDTO
+    ) {
         return new ResponseEntity<>(lineService.updateLineById(id, lineDTO), HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Line> patch(@PathVariable String id, @RequestBody @Validated(LineDTO.PatchGroup.class) LineDTO lineDTO) {
+    public ResponseEntity<Line> patch(
+            @PathVariable String id,
+            @RequestBody @Validated(LineDTO.PatchGroup.class) LineDTO lineDTO
+    ) {
         return new ResponseEntity<>(lineService.patchLineById(id, lineDTO), HttpStatus.OK);
     }
 

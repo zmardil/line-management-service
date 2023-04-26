@@ -13,14 +13,14 @@ public class LineIdGenerator implements IdentifierGenerator {
     public Object generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
         String prefix = "LN";
         String query = String.format(
-            "SELECT %s FROM %s ORDER BY %s DESC",
-            "id", object.getClass().getSimpleName(), "id"
+                "SELECT %s FROM %s ORDER BY %s DESC",
+                "id", object.getClass().getSimpleName(), "id"
         );
         List<String> maxIdList = session
                 .createQuery(query, String.class)
                 .setMaxResults(1)
                 .getResultList();
-        if(maxIdList.isEmpty()) {
+        if (maxIdList.isEmpty()) {
             return prefix + "0001";
         }
 

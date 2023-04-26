@@ -4,9 +4,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,10 +24,10 @@ public class ExceptionHandlerAdvice {
     ) {
         HashMap<String, String> errors = new HashMap<>();
         ex.getBindingResult().getFieldErrors().forEach(
-            err -> errors.put(
-                    err.getField(),
-                    err.getDefaultMessage()
-            )
+                err -> errors.put(
+                        err.getField(),
+                        err.getDefaultMessage()
+                )
         );
         ValidationError apiError = new ValidationError(
                 request.getRequestURI(),
@@ -44,9 +45,9 @@ public class ExceptionHandlerAdvice {
             HttpServletRequest request
     ) {
         ApiError apiError = new ApiError(
-            request.getRequestURI(),
-            HttpStatus.NOT_FOUND,
-            ex.getMessage()
+                request.getRequestURI(),
+                HttpStatus.NOT_FOUND,
+                ex.getMessage()
         );
         return new ResponseEntity<>(apiError, apiError.getStatus());
     }
