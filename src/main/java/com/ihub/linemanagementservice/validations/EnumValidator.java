@@ -5,6 +5,7 @@ import jakarta.validation.ConstraintValidatorContext;
 
 public class EnumValidator implements ConstraintValidator<EnumConstraint, Enum<?>> {
     private Class<? extends Enum<?>> enumClass;
+
     @Override
     public void initialize(EnumConstraint constraintAnnotation) {
         enumClass = constraintAnnotation.value();
@@ -12,10 +13,10 @@ public class EnumValidator implements ConstraintValidator<EnumConstraint, Enum<?
 
     @Override
     public boolean isValid(Enum<?> value, ConstraintValidatorContext context) {
-        if(value == null) {
+        if (value == null) {
             return true;
         }
-        for(Enum<?> enumValue : enumClass.getEnumConstants()) {
+        for (Enum<?> enumValue : enumClass.getEnumConstants()) {
             if (value.equals(enumValue)) {
                 return true;
             }

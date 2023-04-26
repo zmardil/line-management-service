@@ -1,6 +1,6 @@
 package com.ihub.linemanagementservice.enums;
 
-public enum Shift {
+public enum ShiftType {
     A,
     B
 }
