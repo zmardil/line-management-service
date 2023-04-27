@@ -12,14 +12,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/lines")
 @AllArgsConstructor
 public class LineController {
 
-    @Autowired
     private final LineService lineService;
 
     @PostMapping
@@ -28,8 +29,12 @@ public class LineController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Line>> read() {
-        return new ResponseEntity<>(lineService.getAllLines(), HttpStatus.OK);
+    public ResponseEntity<Map<String, Object>> read() {
+        List<Line> lines = lineService.getAllLines();
+        Map<String, Object> response = new HashMap<>();
+        response.put("lines", lines);
+        response.put("count", lines.size());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
